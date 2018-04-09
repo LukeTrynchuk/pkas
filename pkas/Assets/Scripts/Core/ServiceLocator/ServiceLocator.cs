@@ -7,19 +7,6 @@
 
 	public sealed class ServiceLocator 
 	{
-		#region Public Variables
-		public static ServiceLocator Instance
-		{
-			get
-			{
-				if (m_instance == null)
-					Initialize ();
-
-				return m_instance;
-			}
-		}
-		#endregion
-
 		#region Private Variables
 		private static ServiceLocator m_instance;
 		private static Dictionary < string, object > servicesDictionary;
