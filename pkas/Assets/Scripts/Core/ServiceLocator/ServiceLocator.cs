@@ -37,9 +37,21 @@
 				DispatchRegistrationHandles<T> ();
 				return;
 			}
-
 			servicesDictionary[typeof(T).Name] = service;
 			DispatchRegistrationHandles<T> ();
+		}
+
+		public static void Unregister<T>(object Service)
+		{
+			Initialize ();
+
+			if (!ServiceAlreadyRegistered<T> ())
+				return;
+
+			if (GetService<T> ().Equals (Service)) 
+			{
+				UnregisterService<T> ();
+			}
 		}
 
 		public static T GetService < T >()
@@ -137,6 +149,12 @@
 				return true;
 			return false;
 		}
+
+		private static void UnregisterService<T>()
+		{
+			servicesDictionary [typeof(T).Name] = default(T);
+		}
+
 		#endregion
 	}
 }

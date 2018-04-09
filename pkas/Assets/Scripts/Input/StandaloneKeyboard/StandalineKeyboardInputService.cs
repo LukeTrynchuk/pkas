@@ -8,10 +8,28 @@
 
 	public class StandalineKeyboardInputService : MonoBehaviour , IInputService
 	{
+		#region Private Variables
+		private int m_numberOfJoysticks;
+		#endregion
+
 		#region Main Methods
-		void OnEnable()
+		void Awake()
 		{
-			RegisterService ();
+			SetNumberOfJoySticks ();
+			if (m_numberOfJoysticks == 0)
+				RegisterService ();
+		}
+
+		void Update()
+		{
+			#if UNITY_STANDALONE
+			if (Input.GetJoystickNames ().Length == 0 && m_numberOfJoysticks > 0) 
+			{
+				RegisterService ();
+			}
+
+			SetNumberOfJoySticks ();
+			#endif
 		}
 
 		public Vector2 GetMovementVector()
@@ -70,6 +88,15 @@
 				gameObject.SetActive(false);
 			#endif
 		}
+		#endregion
+
+		#region Low Level Functions
+
+		private void SetNumberOfJoySticks()
+		{
+			m_numberOfJoysticks = Input.GetJoystickNames ().Length;
+		}
+
 		#endregion
 	}
 }

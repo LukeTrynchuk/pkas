@@ -15,12 +15,26 @@
 
 		private const string LEFT_STICK_HOR = "LeftStickHorizontal";
 		private const string LEFT_STICK_VER = "LeftStickVertical";
+
+		private int m_numberOfJoySticks;
 		#endregion
 
 		#region Main Methods
-		void OnEnable()
+		void Awake()
 		{
-			RegisterService ();
+			m_numberOfJoySticks = GetNumberOfJoySticks ();
+			if (m_numberOfJoySticks >= 1)
+				RegisterService ();
+		}
+
+		void Update()
+		{
+			if (m_numberOfJoySticks == 0 && GetNumberOfJoySticks () >= 1) 
+			{
+				RegisterService ();
+			}
+
+			m_numberOfJoySticks = GetNumberOfJoySticks ();
 		}
 
 		public Vector2 GetMovementVector()
@@ -73,6 +87,13 @@
 				return true;
 
 			return false;
+		}
+		#endregion
+
+		#region Low Level Functions
+		private int GetNumberOfJoySticks()
+		{
+			return Input.GetJoystickNames ().Length;
 		}
 		#endregion
 	}
