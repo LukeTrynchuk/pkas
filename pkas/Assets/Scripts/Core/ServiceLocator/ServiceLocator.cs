@@ -7,19 +7,6 @@
 
 	public sealed class ServiceLocator 
 	{
-		#region Public Variables
-		public static ServiceLocator Instance
-		{
-			get
-			{
-				if (m_instance == null)
-					Initialize ();
-
-				return m_instance;
-			}
-		}
-		#endregion
-
 		#region Private Variables
 		private static ServiceLocator m_instance;
 		private static Dictionary < string, object > servicesDictionary;
@@ -37,9 +24,21 @@
 				DispatchRegistrationHandles<T> ();
 				return;
 			}
-
 			servicesDictionary[typeof(T).Name] = service;
 			DispatchRegistrationHandles<T> ();
+		}
+
+		public static void Unregister<T>(object Service)
+		{
+			Initialize ();
+
+			if (!ServiceAlreadyRegistered<T> ())
+				return;
+
+			if (GetService<T> ().Equals (Service)) 
+			{
+				UnregisterService<T> ();
+			}
 		}
 
 		public static T GetService < T >()
@@ -137,6 +136,12 @@
 				return true;
 			return false;
 		}
+
+		private static void UnregisterService<T>()
+		{
+			servicesDictionary [typeof(T).Name] = default(T);
+		}
+
 		#endregion
 	}
 }
