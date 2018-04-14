@@ -9,5 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Preload.unity
     guid: 7de21b6bb0aa84ea489e3d0142de37b6
   - enabled: 1
+    path: Assets/Scenes/StartAnimationIntro.unity
+    guid: 193aa25e459834fb894e9da9997ad937
+  - enabled: 1
     path: Assets/Scenes/StartMenu.unity
     guid: 6f00a8da4804c45b09c22be543eeb8cb
